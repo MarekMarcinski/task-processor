@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TaskService {
 
+    private final TaskFinder taskFinder;
     private final TaskCreator taskCreator;
     private final TaskProcessor taskProcessor;
 
@@ -16,5 +17,9 @@ public class TaskService {
 
         taskProcessor.process(saved);
         return saved.getUuid().toString();
+    }
+
+    public Task getTask(String taskUuid) {
+        return taskFinder.findTaskBy(taskUuid);
     }
 }

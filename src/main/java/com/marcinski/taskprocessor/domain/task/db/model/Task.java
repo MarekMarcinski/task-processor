@@ -22,7 +22,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Status status = Status.CREATED;
     private int progress = 0;
-    private TaskResult result;
+    private TaskResult result = new TaskResult();
 
     public static Task createInitialTask(String input, String pattern) {
         return new Task()

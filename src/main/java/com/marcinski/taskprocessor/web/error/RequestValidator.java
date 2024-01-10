@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class RequestValidator {
@@ -24,6 +25,14 @@ public class RequestValidator {
         }
         if (!errors.isEmpty()) {
             throw new WrongInputException("There was a problem with provided CreateTaskRequest", errors);
+        }
+    }
+
+    public void validateUuid(String taskUuid) {
+        try {
+            UUID.fromString(taskUuid);
+        } catch (Exception exception) {
+            throw new WrongUuidException("Given string is no in UUID format");
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.marcinski.taskprocessor.web.error;
 
+import com.marcinski.taskprocessor.domain.task.exception.TaskNotFoundException;
 import com.marcinski.taskprocessor.web.model.ApiError;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +16,20 @@ public class AdviceController {
         return new ApiError()
                 .setMessage(exception.getMessage())
                 .setErrors(exception.getErrors());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(WrongUuidException.class)
+    public ApiError handleWrongUuidException(WrongUuidException exception) {
+        return new ApiError()
+                .setMessage(exception.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ApiError handleTaskNotFoundException(TaskNotFoundException exception) {
+        return new ApiError()
+                .setMessage(exception.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

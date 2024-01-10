@@ -39,4 +39,19 @@ public class RequestValidatorTest {
         assertEquals(2, exception.getErrors().size());
     }
 
+    @Test
+    public void testValidateUuid_ValidUuid() {
+        String validUuid = "550e8400-e29b-41d4-a716-446655440000";
+
+        assertDoesNotThrow(() -> requestValidator.validateUuid(validUuid));
+    }
+
+    @Test
+    public void testValidateUuid_InvalidUuid() {
+        String invalidUuid = "invalid-uuid";
+
+        assertThrows(WrongUuidException.class,
+                () -> requestValidator.validateUuid(invalidUuid));
+    }
+
 }
