@@ -3,6 +3,7 @@ package com.marcinski.taskprocessor.domain.task;
 
 import com.marcinski.taskprocessor.domain.task.db.model.Task;
 import com.marcinski.taskprocessor.domain.task.db.model.TaskResult;
+import com.marcinski.taskprocessor.util.Waiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,9 @@ class TaskProcessor {
 
     @Async
     public void process(Task task) {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
+        Waiter.simulateDelay();
+
         taskUpdater.markTaskAsInProgress(task);
 
         String input = task.getInput();
