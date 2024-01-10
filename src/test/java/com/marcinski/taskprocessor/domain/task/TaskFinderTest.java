@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -31,7 +30,6 @@ public class TaskFinderTest {
     }
 
     @Test
-    @Transactional
     public void testFindTaskBy_ExistingTask() {
         String existingTaskUuid = "b8bf0f8e-2a27-4c3a-a674-9f549055b90e";
         Task existingTask = new Task();
@@ -44,7 +42,6 @@ public class TaskFinderTest {
     }
 
     @Test
-    @Transactional
     public void testFindTaskBy_NonExistingTask() {
         String nonExistingTaskUuid = UUID.randomUUID().toString();
         when(taskRepository.findByUuid(UUID.fromString(nonExistingTaskUuid))).thenReturn(Optional.empty());

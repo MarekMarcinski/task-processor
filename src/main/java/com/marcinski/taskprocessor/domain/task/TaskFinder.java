@@ -4,6 +4,8 @@ import com.marcinski.taskprocessor.domain.task.db.model.Task;
 import com.marcinski.taskprocessor.domain.task.db.repository.TaskRepository;
 import com.marcinski.taskprocessor.domain.task.exception.TaskNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,5 +21,10 @@ class TaskFinder {
     public Task findTaskBy(String taskUuid) {
         return taskRepository.findByUuid(UUID.fromString(taskUuid))
                 .orElseThrow(() -> new TaskNotFoundException(String.format("There is no task with uuid: %s", taskUuid)));
+    }
+
+    @Transactional
+    public Page<Task> getTaskPage(int page, int size) {
+        return taskRepository.findAll(PageRequest.of(page, size));
     }
 }
