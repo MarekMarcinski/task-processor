@@ -15,6 +15,8 @@ public class TaskServiceTest {
 
     @Mock
     private TaskCreator taskCreator;
+    @Mock
+    private TaskProcessor taskProcessor;
 
     @InjectMocks
     private TaskService taskService;
@@ -36,8 +38,8 @@ public class TaskServiceTest {
         String resultUuid = taskService.createTaskAndProcess(input, pattern);
 
         verify(taskCreator, times(1)).createTask(input, pattern);
+        verify(taskProcessor, times(1)).process(mockTask);
 
-        // Verify that the returned UUID is the same as the UUID of the mockTask
         assertEquals(mockTask.getUuid().toString(), resultUuid);
     }
 }
