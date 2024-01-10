@@ -2,11 +2,15 @@ package com.marcinski.taskprocessor.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcinski.taskprocessor.domain.task.TaskService;
+import com.marcinski.taskprocessor.domain.task.db.model.Status;
 import com.marcinski.taskprocessor.domain.task.db.model.Task;
 import com.marcinski.taskprocessor.web.error.RequestValidator;
 import com.marcinski.taskprocessor.web.error.WrongInputException;
 import com.marcinski.taskprocessor.web.error.WrongUuidException;
+import com.marcinski.taskprocessor.web.mapper.TaskMapper;
 import com.marcinski.taskprocessor.web.model.CreateTaskRequest;
+import com.marcinski.taskprocessor.web.model.ResultResponse;
+import com.marcinski.taskprocessor.web.model.TaskResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,6 +37,9 @@ public class TaskControllerTest {
 
     @MockBean
     private TaskService taskService;
+
+    @MockBean
+    private TaskMapper taskMapper;
 
     @Test
     public void testCreateTask() throws Exception {
@@ -72,7 +79,11 @@ public class TaskControllerTest {
         String validTaskUuid = "550e8400-e29b-41d4-a716-446655440000";
         Task mockTask = new Task();
         when(taskService.getTask(validTaskUuid)).thenReturn(mockTask);
-
+        TaskResponse responseMock = new TaskResponse()
+                .setUuid(validTaskUuid)
+                .setStatus(Status.COMPLETED.name())
+                .setResult(new ResultResponse());
+        when(taskMapper.toResponse(any())).thenReturn(responseMock);
         mockMvc.perform(MockMvcRequestBuilders.get("/tasks/{taskUuid}", validTaskUuid)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
