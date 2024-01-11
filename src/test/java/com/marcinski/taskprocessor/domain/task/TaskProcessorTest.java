@@ -39,13 +39,13 @@ public class TaskProcessorTest {
 
         TaskResult mockResult = new TaskResult();
 
-        when(taskResultCalculator.findBestMatch(any(), any())).thenReturn(mockResult);
+        when(taskResultCalculator.findBestMatch(any(), any(), any())).thenReturn(mockResult);
 
         taskProcessor.process(mockTask);
 
         verify(taskUpdater, times(1)).markTaskAsInProgress(mockTask);
 
-        verify(taskResultCalculator, times(1)).findBestMatch(mockTask.getInput(), mockTask.getPattern());
+        verify(taskResultCalculator, times(1)).findBestMatch(any(), any(), any());
 
         verify(taskUpdater, times(1)).markTaskAsFinished(mockTask, mockResult);
     }

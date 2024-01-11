@@ -5,6 +5,7 @@ import com.marcinski.taskprocessor.util.Waiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 @Component
@@ -13,16 +14,26 @@ class TaskResultCalculator {
 
     private final Waiter waiter;
 
-    TaskResult findBestMatch(String input, String pattern) {
+    TaskResult findBestMatch(String input, String pattern, Consumer<Integer> onProgressChange) {
         int bestPosition = 0;
         int bestTypos = Integer.MAX_VALUE;
 
-        for (int i = 0; i <= input.length() - pattern.length(); i++) {
+        int loopLength = input.length() - pattern.length();
+        int updateProgressEvery = Math.max(10, loopLength / 100);
+        for (int i = 0; i <= loopLength; i++) {
             int typos = calculateTypos(input.substring(i, i + pattern.length()), pattern);
 
             if (typos < bestTypos) {
                 bestTypos = typos;
                 bestPosition = i;
+            }
+
+            if (typos == 0) {
+                break;
+            }
+
+            if (i % updateProgressEvery == 0 && i != 0) {
+                onProgressChange.accept(100 * i / loopLength);
             }
             waiter.simulateDelay();
         }

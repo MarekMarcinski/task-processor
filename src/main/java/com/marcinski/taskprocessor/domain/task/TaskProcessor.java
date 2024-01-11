@@ -26,7 +26,8 @@ class TaskProcessor {
         String input = task.getInput();
         String pattern = task.getPattern();
 
-        TaskResult result = taskResultCalculator.findBestMatch(input, pattern);
+        TaskResult result = taskResultCalculator.findBestMatch(input, pattern,
+                (progress) -> taskUpdater.updateProgress(task, progress));
 
         taskUpdater.markTaskAsFinished(task, result);
     }

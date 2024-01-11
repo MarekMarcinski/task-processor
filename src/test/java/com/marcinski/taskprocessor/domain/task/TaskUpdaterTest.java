@@ -54,4 +54,16 @@ public class TaskUpdaterTest {
         assertEquals(mockResult, mockTask.getResult());
         verify(taskRepository, times(1)).save(mockTask);
     }
+
+    @Test
+    public void testUpdateProgress() {
+        String input = "ABCD";
+        String pattern = "BCD";
+        Task mockTask = Task.createInitialTask(input, pattern);
+
+        taskUpdater.updateProgress(mockTask, 80);
+
+        assertEquals(80, mockTask.getProgress());
+        verify(taskRepository, times(1)).save(mockTask);
+    }
 }

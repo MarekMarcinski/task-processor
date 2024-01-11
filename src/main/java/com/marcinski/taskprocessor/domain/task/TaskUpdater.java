@@ -28,4 +28,10 @@ class TaskUpdater {
         taskToUpdate.setProgress(100);
         taskRepository.save(taskToUpdate);
     }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateProgress(Task taskToUpdate, int progress) {
+        taskToUpdate.setProgress(progress);
+        taskRepository.save(taskToUpdate);
+    }
 }
