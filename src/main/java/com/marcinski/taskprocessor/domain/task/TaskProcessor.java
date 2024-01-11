@@ -5,9 +5,11 @@ import com.marcinski.taskprocessor.domain.task.db.model.Task;
 import com.marcinski.taskprocessor.domain.task.db.model.TaskResult;
 import com.marcinski.taskprocessor.util.Waiter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 class TaskProcessor {
@@ -18,7 +20,8 @@ class TaskProcessor {
 
     @Async
     public void process(Task task) {
-
+        log.debug("Processing of a task {} started!", task);
+        long start = System.currentTimeMillis();
         waiter.simulateDelay();
 
         taskUpdater.markTaskAsInProgress(task);
@@ -30,5 +33,7 @@ class TaskProcessor {
                 (progress) -> taskUpdater.updateProgress(task, progress));
 
         taskUpdater.markTaskAsFinished(task, result);
+        long end = System.currentTimeMillis();
+        log.debug("Processing of a task {} ended after {} mills!", task, end - start);
     }
 }
