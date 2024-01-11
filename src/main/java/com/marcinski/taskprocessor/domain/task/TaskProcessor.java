@@ -12,13 +12,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 class TaskProcessor {
 
+    private final Waiter waiter;
     private final TaskUpdater taskUpdater;
     private final TaskResultCalculator taskResultCalculator;
 
     @Async
     public void process(Task task) {
 
-        Waiter.simulateDelay();
+        waiter.simulateDelay();
 
         taskUpdater.markTaskAsInProgress(task);
 

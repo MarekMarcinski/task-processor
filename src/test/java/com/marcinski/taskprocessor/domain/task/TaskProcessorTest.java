@@ -2,6 +2,7 @@ package com.marcinski.taskprocessor.domain.task;
 
 import com.marcinski.taskprocessor.domain.task.db.model.Task;
 import com.marcinski.taskprocessor.domain.task.db.model.TaskResult;
+import com.marcinski.taskprocessor.util.Waiter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,6 +17,8 @@ public class TaskProcessorTest {
     @Mock
     private TaskUpdater taskUpdater;
 
+    @Mock
+    private Waiter waiter;
     @Mock
     private TaskResultCalculator taskResultCalculator;
 
