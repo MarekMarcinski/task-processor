@@ -9,7 +9,7 @@
 To install project you need to follow below steps:
 1) `mvn package`
 to generate .jar file inside target folder
-2) `docker build -t com.marcinski/task_postgres Dockerfile_db .`
+2) `docker build -t com.marcinski/task_postgres -f Dockerfile_db .`
 to generate a new image of a postgres container where the taskdb Database will be created automatically  
 3) `docker build --build-arg JAR_FILE=target/\*.jar -t com.marcinski/taskprocessor -f Dockerfile_app .`
 to generate a new image of a task-processor app
